@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PhysicsBasedCharacterController;
+using UnityEngine.Events;
+
 
 public class CharacterCombatManager : MonoBehaviour
 {
@@ -9,7 +11,18 @@ public class CharacterCombatManager : MonoBehaviour
     [Header("Time available for combo")]
     public int term;
 
+    [SerializeField] UnityEvent OnAttack1;
+    [Space(15)]
+    [SerializeField] UnityEvent OnAttack2;
+    [Space(15)]
+    [SerializeField] UnityEvent OnAttack3;
+    [Space(15)]
+    [SerializeField] UnityEvent OnDodge;
+    [Space(15)]
+
     private CharacterManager _characterManager;
+
+    private float _tempSpeed;
 
     // Start is called before the first frame update
     private void Start()
@@ -68,6 +81,7 @@ public class CharacterCombatManager : MonoBehaviour
                 case 0:
                     
                     anim.SetTrigger("Attack1");
+                    OnAttack1.Invoke();
                     
                     isTimer = true;
                     
@@ -80,6 +94,7 @@ public class CharacterCombatManager : MonoBehaviour
                     if (timer <= term)
                     {                        
                         anim.SetTrigger("Attack2");
+                        OnAttack2.Invoke();
                         
                         clickCount++;
                     }
@@ -102,6 +117,7 @@ public class CharacterCombatManager : MonoBehaviour
                     if (timer <= term)
                     {                        
                         anim.SetTrigger("Attack3");
+                        OnAttack3.Invoke();
                         
                         clickCount = 0;
                         
@@ -128,6 +144,8 @@ public class CharacterCombatManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {            
             anim.SetTrigger("Dodge");
+            OnDodge.Invoke();
+            StartCoroutine(DodgeRoutine());
         }
     }
 
@@ -214,5 +232,10 @@ public class CharacterCombatManager : MonoBehaviour
             // Play Skill8 animation
             anim.SetTrigger("Skill8");
         }
+    }
+
+    IEnumerator DodgeRoutine() {
+        _tempSpeed = _characterManager.movementSpeed;
+        yield return new WaitForSeconds(2);
     }
 }
