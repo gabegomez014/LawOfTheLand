@@ -10,6 +10,7 @@ public class CharacterCombatManager : MonoBehaviour
     public Animator anim;
     [Header("Time available for combo")]
     public int term;
+    public float dodgeForce;
 
     [SerializeField] UnityEvent OnAttack1;
     [Space(15)]
@@ -21,6 +22,7 @@ public class CharacterCombatManager : MonoBehaviour
     [Space(15)]
 
     private CharacterManager _characterManager;
+    private Rigidbody _rb;
 
     private float _tempSpeed;
 
@@ -28,6 +30,7 @@ public class CharacterCombatManager : MonoBehaviour
     private void Start()
     {
         _characterManager = GetComponent<CharacterManager>();
+        _rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -59,7 +62,7 @@ public class CharacterCombatManager : MonoBehaviour
         }
     }
 
-        int clickCount;
+    int clickCount;
     float timer;
     bool isTimer;
 
@@ -145,7 +148,8 @@ public class CharacterCombatManager : MonoBehaviour
         {            
             anim.SetTrigger("Dodge");
             OnDodge.Invoke();
-            StartCoroutine(DodgeRoutine());
+            // _rb.AddForce(this.transform.forward * dodgeForce, ForceMode.Force);
+            _rb.velocity += this.transform.forward * dodgeForce;
         }
     }
 
@@ -232,10 +236,5 @@ public class CharacterCombatManager : MonoBehaviour
             // Play Skill8 animation
             anim.SetTrigger("Skill8");
         }
-    }
-
-    IEnumerator DodgeRoutine() {
-        _tempSpeed = _characterManager.movementSpeed;
-        yield return new WaitForSeconds(2);
     }
 }
