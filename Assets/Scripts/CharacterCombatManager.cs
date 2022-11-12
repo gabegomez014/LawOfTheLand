@@ -31,6 +31,8 @@ public class CharacterCombatManager : MonoBehaviour
     {
         _characterManager = GetComponent<CharacterManager>();
         _rb = GetComponent<Rigidbody>();
+        AnimatorClipInfo clip = anim.GetCurrentAnimatorClipInfo(0)[0];
+        
     }
 
     // Update is called once per frame
