@@ -12,6 +12,8 @@ public class CharacterCombatManager : MonoBehaviour
     public int term;
     public float dodgeForce;
 
+    public Ability[] abilities;
+
     [SerializeField] UnityEvent OnAttack1;
     [Space(15)]
     [SerializeField] UnityEvent OnAttack2;
@@ -173,6 +175,9 @@ public class CharacterCombatManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             // Play Skill1 animation
+            abilities[0].Initialize(this.gameObject);
+            abilities[0].TriggerAbility();
+
             anim.SetTrigger("Skill1");
         }
     }
