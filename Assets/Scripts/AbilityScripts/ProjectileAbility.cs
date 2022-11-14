@@ -11,12 +11,13 @@ public class ProjectileAbility : Ability {
     private ProjectileActivator activator;
     public override void Initialize(GameObject obj)
     {
-        activator = obj.GetComponent<ProjectileActivator> ();
+        activator = obj.GetComponent<ProjectileActivator>();
         activator.SetProjectileForce(projectileForce);
         activator.SetProjectile(projectile);
         activator.SetDeathParticles(deathParticles);
         activator.SetAbilityDuration(abilityDuration);
         activator.SetDeathParticlesDuration(deathDuration);
+        activator.SetAnimationClip(abilityAnim);
     }
 
     public override void TriggerAbility()

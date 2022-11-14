@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using PhysicsBasedCharacterController;
 using UnityEngine.Events;
@@ -31,10 +32,9 @@ public class CharacterCombatManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        
         _characterManager = GetComponent<CharacterManager>();
         _rb = GetComponent<Rigidbody>();
-        AnimatorClipInfo clip = anim.GetCurrentAnimatorClipInfo(0)[0];
-        
     }
 
     // Update is called once per frame
@@ -174,12 +174,29 @@ public class CharacterCombatManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            Ability ability = abilities[0];
             // Play Skill1 animation
-            abilities[0].Initialize(this.gameObject);
-            abilities[0].TriggerAbility();
+            ability.Initialize(this.gameObject);
+
+            AnimatorOverrideController animController = anim.runtimeAnimatorController as AnimatorOverrideController;
+            List<KeyValuePair<AnimationClip, AnimationClip>> animOverrideParams =
+                new List<KeyValuePair<AnimationClip, AnimationClip>>();
+
+            AnimationClip originalClip = animController.runtimeAnimatorController.animationClips.Where(
+                clip => clip.name.Contains("Skill1")
+            ).ToList()[0];
+
+            animOverrideParams.Add(
+                new KeyValuePair<AnimationClip, AnimationClip>(originalClip, ability.abilityAnim)
+            );
+
+            animController.ApplyOverrides(animOverrideParams);
+
+            ability.TriggerAbility();
 
             anim.SetTrigger("Skill1");
         }
+        
     }
     // Skill2
     void Skill2()
