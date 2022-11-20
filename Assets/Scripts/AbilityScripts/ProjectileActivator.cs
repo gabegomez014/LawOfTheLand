@@ -9,6 +9,7 @@ public class ProjectileActivator : MonoBehaviour
     private GameObject _projectile;
     private GameObject _deathParticles;
     private AnimationClip _animClip;
+    private float _damage;
 
     private float _projectileForce = 250f;
     private float _abilityDuration = 1.5f;
@@ -39,6 +40,10 @@ public class ProjectileActivator : MonoBehaviour
         _deathParticlesDuration = duration;
     }
 
+    public void SetDamage(float damage) {
+        _damage = damage;
+    }
+
     public void Activate() {
         GameObject clonedProjectile = GameObject.Instantiate(_projectile, spawnLocation.position, this.transform.rotation);
         Rigidbody rb = clonedProjectile.GetComponent<Rigidbody>();
@@ -49,7 +54,7 @@ public class ProjectileActivator : MonoBehaviour
         deathHandler.SetDeathParticles(_deathParticles);
         deathHandler.SetAbilityDuration(_abilityDuration);
         deathHandler.SetDeathParticlesDuration(_deathParticlesDuration);
-
+        deathHandler.SetDamage(_damage);
     }
 
 

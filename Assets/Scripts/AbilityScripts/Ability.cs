@@ -12,6 +12,7 @@ public abstract class Ability : ScriptableObject
     public float abilityBaseCoolDown = 1f;
     public float abilityDuration;
     public float deathDuration;
+    public float damage;
 
     public abstract void Initialize(GameObject obj);
     public abstract void TriggerAbility();

@@ -21,6 +21,7 @@ MonoBehaviour:
   abilityBaseCoolDown: 1
   abilityDuration: 1.5
   deathDuration: 1.5
+  damage: 1
   projectileForce: 5
   projectile: {fileID: 3504792707825108473, guid: 8cd0706e614ce44669a80a51b4be74f7,
     type: 3}

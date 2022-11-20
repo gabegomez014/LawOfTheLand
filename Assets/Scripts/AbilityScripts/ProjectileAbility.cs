@@ -18,6 +18,7 @@ public class ProjectileAbility : Ability {
         activator.SetAbilityDuration(abilityDuration);
         activator.SetDeathParticlesDuration(deathDuration);
         activator.SetAnimationClip(abilityAnim);
+        activator.SetDamage(damage);
     }
 
     public override void TriggerAbility()
