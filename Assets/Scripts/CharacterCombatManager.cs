@@ -76,13 +76,11 @@ public class CharacterCombatManager : MonoBehaviour
 
     
     void Attack()
-    {
-        
+    {   
         if (isTimer)
         {
             timer += Time.deltaTime;
         }
-
         
         if (Input.GetMouseButtonDown(0))
         {
@@ -90,6 +88,7 @@ public class CharacterCombatManager : MonoBehaviour
             {
                 
                 case 0:
+                    _characterManager.SetAttacking(true);
                     
                     anim.SetTrigger("Attack1");
                     OnAttack1.Invoke();
@@ -116,6 +115,7 @@ public class CharacterCombatManager : MonoBehaviour
                         anim.SetTrigger("Attack1");
                         
                         clickCount = 1;
+                        _characterManager.SetAttacking(false);
                     }
 
                     
@@ -141,6 +141,7 @@ public class CharacterCombatManager : MonoBehaviour
                         anim.SetTrigger("Attack1");
                         
                         clickCount = 1;
+                        _characterManager.SetAttacking(false);
                     }
                 
                     timer = 0;
