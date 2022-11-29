@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using PhysicsBasedCharacterController;
 using UnityEngine.Events;
-
+using Cinemachine;
 
 public class CharacterCombatManager : MonoBehaviour
 {
@@ -12,6 +12,8 @@ public class CharacterCombatManager : MonoBehaviour
     [Header("Time available for combo")]
     public int term;
     public float dodgeForce;
+    public CinemachineFreeLook playerCam;
+    public LockOnScript lockOnScript;
 
     public Ability[] abilities;
 
@@ -44,6 +46,8 @@ public class CharacterCombatManager : MonoBehaviour
         {            
             Attack();
             
+            ToggleLockOn();
+
             Dodge();
             
             Block();
@@ -145,14 +149,27 @@ public class CharacterCombatManager : MonoBehaviour
         }
     }
 
-    void Dodge()
+    void ToggleLockOn()
     {
         
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && lockOnScript && playerCam)
+        {            
+            if (lockOnScript.enabled) {
+                lockOnScript.enabled = false;
+                playerCam.enabled = true;
+            } else {
+                playerCam.enabled = false;
+                lockOnScript.enabled = true;
+            }
+        }
+    }
+
+    void Dodge() 
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && lockOnScript && playerCam)
         {            
             anim.SetTrigger("Dodge");
             OnDodge.Invoke();
-            // _rb.AddForce(this.transform.forward * dodgeForce, ForceMode.Force);
             _rb.velocity += this.transform.forward * dodgeForce;
         }
     }
