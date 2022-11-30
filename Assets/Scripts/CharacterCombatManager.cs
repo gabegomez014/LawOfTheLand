@@ -12,6 +12,7 @@ public class CharacterCombatManager : MonoBehaviour
     [Header("Time available for combo")]
     public int term;
     public float dodgeForce;
+    public float attackTime;
     public CinemachineFreeLook playerCam;
     public LockOnScript lockOnScript;
 
@@ -29,7 +30,7 @@ public class CharacterCombatManager : MonoBehaviour
     private CharacterManager _characterManager;
     private Rigidbody _rb;
 
-    private float _tempSpeed;
+    private float _currentAttackTime;
 
     // Start is called before the first frame update
     private void Start()
@@ -73,6 +74,7 @@ public class CharacterCombatManager : MonoBehaviour
     int clickCount;
     float timer;
     bool isTimer;
+    bool attacking;
 
     
     void Attack()
@@ -88,7 +90,9 @@ public class CharacterCombatManager : MonoBehaviour
             {
                 
                 case 0:
+                    attacking = true;
                     _characterManager.SetAttacking(true);
+                    _currentAttackTime = attackTime;
                     
                     anim.SetTrigger("Attack1");
                     OnAttack1.Invoke();
@@ -105,6 +109,7 @@ public class CharacterCombatManager : MonoBehaviour
                     {                        
                         anim.SetTrigger("Attack2");
                         OnAttack2.Invoke();
+                        _currentAttackTime = attackTime;
                         
                         clickCount++;
                     }
@@ -115,10 +120,9 @@ public class CharacterCombatManager : MonoBehaviour
                         anim.SetTrigger("Attack1");
                         
                         clickCount = 1;
-                        _characterManager.SetAttacking(false);
                     }
 
-                    
+                    // _characterManager.SetAttacking(false);
                     timer = 0;
                     break;
 
@@ -129,6 +133,7 @@ public class CharacterCombatManager : MonoBehaviour
                     {                        
                         anim.SetTrigger("Attack3");
                         OnAttack3.Invoke();
+                        _currentAttackTime = attackTime;
                         
                         clickCount = 0;
                         
@@ -141,12 +146,17 @@ public class CharacterCombatManager : MonoBehaviour
                         anim.SetTrigger("Attack1");
                         
                         clickCount = 1;
-                        _characterManager.SetAttacking(false);
                     }
                 
+                    // _characterManager.SetAttacking(false);
                     timer = 0;
                     break;
             }
+        } else if (_currentAttackTime <= 0 && attacking){
+            attacking = false;
+            _characterManager.SetAttacking(false);
+        } else if (_currentAttackTime > 0) {
+            _currentAttackTime -= Time.deltaTime;
         }
     }
 
