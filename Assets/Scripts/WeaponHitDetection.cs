@@ -6,9 +6,10 @@ public class WeaponHitDetection : MonoBehaviour
 {
     public GameObject weaponVFX;
     public float damage; 
+    public CharacterCombatManager _player;
 
     private void OnTriggerEnter(Collider other) {
-        if (other.tag == "Enemy") {
+        if (_player && _player.GetAttacking() && other.tag == "Enemy") {
             GameObject clonedVFX = Instantiate(weaponVFX, other.ClosestPointOnBounds(this.transform.position), Quaternion.identity);
             Destroy(clonedVFX, 2);
 

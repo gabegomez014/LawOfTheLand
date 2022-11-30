@@ -10,6 +10,7 @@ public class CharacterCombatManager : MonoBehaviour
 {
     public Animator anim;
     [Header("Time available for combo")]
+    public int health = 1;
     public int term;
     public float dodgeForce;
     public float attackTime;
@@ -30,12 +31,13 @@ public class CharacterCombatManager : MonoBehaviour
     private CharacterManager _characterManager;
     private Rigidbody _rb;
 
+    private int _currentHealth;
     private float _currentAttackTime;
 
     // Start is called before the first frame update
     private void Start()
     {
-        
+        _currentHealth = health;
         _characterManager = GetComponent<CharacterManager>();
         _rb = GetComponent<Rigidbody>();
     }
@@ -288,5 +290,18 @@ public class CharacterCombatManager : MonoBehaviour
             // Play Skill8 animation
             anim.SetTrigger("Skill8");
         }
+    }
+
+    public bool GetAttacking() {
+        return attacking;
+    }
+
+    public void TakeDamage(int damage) {
+        _currentHealth -= damage;
+        if (_currentHealth <= 0) {Death();}
+    }
+
+    public void Death() {
+        Destroy(this.gameObject);
     }
 }
