@@ -14,10 +14,18 @@ public class WeaponHitDetection : MonoBehaviour
             Destroy(clonedVFX, 2);
 
             EnemyHitDetection enemyHitDetection = other.GetComponent<EnemyHitDetection>();
+            if (!enemyHitDetection) {
+                enemyHitDetection = other.transform.parent.GetComponent<EnemyHitDetection>();
+            }
             enemyHitDetection.Hit();
 
             HealthManager healthManager = other.GetComponent<HealthManager>();
+            if (!healthManager) {
+                healthManager = other.transform.parent.GetComponent<HealthManager>();
+            }
             healthManager.TakeDamage(damage);
+
+            _player.GainHealth(1);
         }
     }
 }

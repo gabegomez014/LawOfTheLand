@@ -8,6 +8,7 @@ using Cinemachine;
 
 public class CharacterCombatManager : MonoBehaviour
 {
+    public UIManager uiManager;
     public Animator anim;
     [Header("Time available for combo")]
     public int health = 1;
@@ -49,27 +50,27 @@ public class CharacterCombatManager : MonoBehaviour
         {            
             Attack();
             
-            ToggleLockOn();
+            // ToggleLockOn();
 
             Dodge();
             
-            Block();
+            // Block();
 
-            Skill1();
+            // Skill1();
             
-            Skill2();
+            // Skill2();
             
-            Skill3();
+            // Skill3();
             
-            Skill4();
+            // Skill4();
             
-            Skill5();
+            // Skill5();
             
-            Skill6();
+            // Skill6();
             
-            Skill7();
+            // Skill7();
             
-            Skill8();
+            // Skill8();
         }
     }
 
@@ -298,10 +299,20 @@ public class CharacterCombatManager : MonoBehaviour
 
     public void TakeDamage(int damage) {
         _currentHealth -= damage;
+        uiManager.UpdateHealthBar((float) _currentHealth / (float) health);
         if (_currentHealth <= 0) {Death();}
     }
 
+    public void GainHealth(int gain) {
+        if (_currentHealth < health)  {
+            _currentHealth += gain;
+        }
+
+        uiManager.UpdateHealthBar((float) _currentHealth / (float) health);
+    }
+
     public void Death() {
+        uiManager.ShowGameOver();
         Destroy(this.gameObject);
     }
 }

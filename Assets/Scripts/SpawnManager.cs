@@ -8,6 +8,7 @@ using Michsky.UI.MTP;
 public class SpawnManager : MonoBehaviour
 {
 
+    public UIManager uiManager;
     public GameObject roundPresentation;
     public float pauseOnAnimTime;
     public StyleManager roundManager;
@@ -29,7 +30,6 @@ public class SpawnManager : MonoBehaviour
 
     public void StartSpawning()
     {
-        // StartCoroutine(SpawnPowerups());
         StartCoroutine(SpawnEnemies());
     }
 
@@ -46,39 +46,6 @@ public class SpawnManager : MonoBehaviour
     {
         _keepSpawning = true;
         StartCoroutine(SpawnEnemies());
-        // StartCoroutine(SpawnPowerups());
-    }
-
-    IEnumerator SpawnPowerups()
-    {
-        yield return new WaitForSeconds(_spawnDelay/2);
-
-        while (_keepSpawning)
-        {
-            float waitTime = Random.Range(3, 7);
-            Vector3 spawnPos = _spawnLocations[Random.Range(0,_spawnLocations.Length)].position;
-
-            //Checking to see if we should drop a rare power-up (Currently set to a 5% probability)
-            // if (Random.value <= 0.05f)
-            // {
-            //     GameObject rarePowerupToSpawn;
-            //     int powerupType = Random.Range(0, _rarePowerups.Length);
-            //     rarePowerupToSpawn = _rarePowerups[powerupType];
-
-            //     Instantiate(rarePowerupToSpawn, spawnPos, Quaternion.identity, _powerupHolder);
-            // }
-
-            // else
-            // {
-            //     GameObject powerupToSpawn;
-            //     int powerupType = Random.Range(0, _powerups.Length);
-            //     powerupToSpawn = _powerups[powerupType];
-
-            //     Instantiate(powerupToSpawn, spawnPos, Quaternion.identity, _powerupHolder);
-            // }
-
-            yield return new WaitForSeconds(waitTime);
-        }
     }
 
     IEnumerator SpawnEnemies() 
@@ -102,14 +69,15 @@ public class SpawnManager : MonoBehaviour
                     {
                         // Player has beat the game!
                         _keepSpawning = false;
-                        // _uiManager.PlayerWon();
+                        uiManager.ShowWinScreen();
                         break;
                     }
 
 
                     _enemiesThisWave = _waves[_currentWave].GetEnemies();
-                    roundPresentation.SetActive(true);
+                    Debug.Log("Current wave is " + _currentWave);
                     roundManager.textItems[0].text = "ROUND " + (_currentWave + 1);
+                    roundPresentation.SetActive(true);
                     yield return new WaitForSeconds(pauseOnAnimTime);
                 }
 
