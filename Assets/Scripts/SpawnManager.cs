@@ -2,9 +2,15 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using Michsky.UI.MTP;
 
 public class SpawnManager : MonoBehaviour
 {
+
+    public GameObject roundPresentation;
+    public float pauseOnAnimTime;
+    public StyleManager roundManager;
 
     [SerializeField]
     private Transform[] _spawnLocations;
@@ -21,15 +27,9 @@ public class SpawnManager : MonoBehaviour
     private List<GameObject> _enemiesThisWave;
     private bool _keepSpawning = true;
 
-    private void Start() {
-        StartSpawning();
-    }
-
     public void StartSpawning()
     {
-        // _uiManager.SetFinalWave(_waves.Length);
-        // _uiManager.UpdateWave(_currentWave + 1);
-        StartCoroutine(SpawnPowerups());
+        // StartCoroutine(SpawnPowerups());
         StartCoroutine(SpawnEnemies());
     }
 
@@ -40,18 +40,13 @@ public class SpawnManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-
-        // foreach (Transform child in _powerupHolder)
-        // {
-        //     Destroy(child.gameObject);
-        // }
     }
 
     public void GameRestarted()
     {
         _keepSpawning = true;
         StartCoroutine(SpawnEnemies());
-        StartCoroutine(SpawnPowerups());
+        // StartCoroutine(SpawnPowerups());
     }
 
     IEnumerator SpawnPowerups()
@@ -88,7 +83,9 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemies() 
     {
-        yield return new WaitForSeconds(_spawnDelay);
+        roundManager.textItems[0].text = "ROUND 1";
+        roundPresentation.SetActive(true);
+        yield return new WaitForSeconds(pauseOnAnimTime);
         _enemiesThisWave = _waves[_currentWave].GetEnemies();
 
         while (_keepSpawning)
@@ -109,15 +106,11 @@ public class SpawnManager : MonoBehaviour
                         break;
                     }
 
-                    else if (_currentWave == _waves.Length - 1)
-                    {
-                        // _player.BossIncoming();
-                    }
 
                     _enemiesThisWave = _waves[_currentWave].GetEnemies();
-                    // _uiManager.UpdateWave(_currentWave + 1);
-
-                    yield return new WaitForSeconds(1);
+                    roundPresentation.SetActive(true);
+                    roundManager.textItems[0].text = "ROUND " + (_currentWave + 1);
+                    yield return new WaitForSeconds(pauseOnAnimTime);
                 }
 
                 else
