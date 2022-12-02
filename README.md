@@ -5,7 +5,7 @@ Game Off 2022 Game Jam
 This was a game I created for the Game Off 2022 Game Jam
 
 # What is the game?
-This game is a action/beat-em up where you try to defeat five rounds of enemy snakes
+This game is an action/beat-em up where you try to defeat five rounds of enemy snakes
 
 # What did I work on in the game?
 In this game, I primarily focused on the level design and programming aspect of things. I created two levels, but in the playable game there is only the desert level. In terms of programming, I focused on creating a lot of the managers to handle actions and events such as combat, spawning, game state, firing off UI properly, and more
