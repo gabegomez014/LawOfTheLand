@@ -17,3 +17,6 @@ Most likely not. This was a fun project for a month. I learned a lot in its deve
 
 # Can the game be built out of the box?
 If you download this source code, I doubt it will work out of the box. I kept assets I used out of the source code on purpose to not have the creators works out there, which is a rule to be followed according to the terms and agreements of asset store purchases. If there is interest, I can let people know which assets I used
+
+# Where you can play the game
+[Click Here](https://simmer.io/@gabe2o2/law-of-the-land)
